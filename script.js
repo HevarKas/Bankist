@@ -168,7 +168,7 @@ const displayMovements = (movements) => {
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-        <div class="movements__value">${mov}€</div>
+        <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
     domElements.movementsContainer.insertAdjacentHTML("afterbegin", html);
@@ -177,7 +177,7 @@ const displayMovements = (movements) => {
 
 const displayBalance = () => {
   const balance = currentAccount.movements.reduce((acc, mov) => acc + mov, 0);
-  domElements.balanceLabel.textContent = `${balance}€`;
+  domElements.balanceLabel.textContent = `${balance.toFixed(2)}€`;
 };
 
 const displaySummary = () => {
@@ -192,9 +192,9 @@ const displaySummary = () => {
     .map((deposit) => (deposit * currentAccount.interestRate) / 100)
     .reduce((acc, int) => acc + int, 0);
 
-  domElements.sumInLabel.textContent = `${income}€`;
-  domElements.sumOutLabel.textContent = `${Math.abs(outcome)}€`;
-  domElements.sumInterestLabel.textContent = `${interest}€`;
+  domElements.sumInLabel.textContent = `${income.toFixed(2)}€`;
+  domElements.sumOutLabel.textContent = `${Math.abs(outcome.toFixed(2))}€`;
+  domElements.sumInterestLabel.textContent = `${interest.toFixed(2)}€`;
 };
 
 const handleDisplayUi = () => {
@@ -240,12 +240,10 @@ const handleRequestLoan = (e) => {
     amount > 0 &&
     currentAccount.movements.some((mov) => mov >= amount * 0.1)
   ) {
-    setTimeout(() => {
-      currentAccount.movements.push(amount);
-      handleDisplayUi();
-      domElements.loanAmountInput.value = "";
-      domElements.loanAmountInput.blur();
-    }, 3000);
+    currentAccount.movements.push(amount);
+    handleDisplayUi();
+    domElements.loanAmountInput.value = "";
+    domElements.loanAmountInput.blur();
   } else {
     handleAlert("Invalid loan request");
     domElements.loanAmountInput.value = "";
