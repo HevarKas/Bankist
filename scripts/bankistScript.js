@@ -337,6 +337,8 @@ const handleLogin = (e) => {
   }
 };
 
+domElements.sortBtn.textContent = "SORT";
+
 const handleSort = () => {
   isSorted = !isSorted;
   displayMovements(
